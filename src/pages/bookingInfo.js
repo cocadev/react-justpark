@@ -3,24 +3,9 @@ import React, { Component } from "react";
 //Redux
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Container from "@material-ui/core/Container";
-
 import BookingDetails from "../components/DashBoard/My Bookings/BookingDetails";
 import BookingInstructions from "../components/DashBoard/My Bookings/BookingInstructions";
 import BookingReview from "../components/DashBoard/My Bookings/BookingReview";
-
-import BookingSummary from "../components/Checkout/BookingSummary";
-
-import CheckoutPersonalDetails from "./checkoutPersonalDetails";
-import CheckoutPaymentInfo from "./checkoutPaymentInfo";
-import CheckoutPaymentButton from "../components/Checkout/CheckoutPaymentButton";
-import { Typography } from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
 
 import firebase from "firebase";
 

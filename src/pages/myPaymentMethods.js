@@ -14,7 +14,6 @@ import List from "@material-ui/core/List";
 
 import firebase from "firebase";
 
-import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./0-card-minimal";
 
 // const stripePromise = loadStripe("pk_test_fBjUAdEgBIK3XRZQ3mOGsxAd00wMisVYso");
