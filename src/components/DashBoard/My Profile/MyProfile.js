@@ -6,7 +6,7 @@ import PaymentMethods from "./PaymentMethods";
 // MUI
 import { Container, Grid, Card, CardContent, withStyles } from "@material-ui/core";
 
-const styles = (theme) => ({
+const styles = () => ({
   container: {
     margin: "30px 0",
   },

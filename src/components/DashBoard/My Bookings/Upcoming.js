@@ -53,7 +53,7 @@ class Upcoming extends Component {
 
     return d;
   }
-  async getBookings(n) {
+  async getBookings() {
     //this function retrieves all the vehicles within the users vehicle node
     let time = this;
 
@@ -122,12 +122,10 @@ class Upcoming extends Component {
   }
 
   componentDidMount() {
-    const { user } = this.props;
     this.getBookings(0);
   }
 
   render() {
-    const { classes, user } = this.props;
 
     console.log("hahahhahah");
     console.log(this.state.bookings);
