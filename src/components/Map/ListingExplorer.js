@@ -125,7 +125,7 @@ class ListingExplorer extends React.Component {
             endDate
           );
           let verified = childData["address_is_verified"];
-          if (available == true && verified == true) {
+          if (available === true && verified === true) {
             listings.push(childData);
           }
           console.log(available);

@@ -68,7 +68,7 @@ class bookingInfo extends Component {
         // gets vehicle unique id
         var key = childSnapshot.key;
 
-        if (key == foo) {
+        if (key === foo) {
           instructions = childSnapshot.child("instructions").val();
           address = childSnapshot.child("address").val();
           listinsName = childSnapshot.child("listinsName").val();
@@ -85,7 +85,7 @@ class bookingInfo extends Component {
 
           if (childSnapshot.child("user_reviewed").val() == null) {
             user_reviewed = false;
-          } else if (childSnapshot.child("user_reviewed").val() == true) {
+          } else if (childSnapshot.child("user_reviewed").val() === true) {
             user_reviewed = true;
           }
         }

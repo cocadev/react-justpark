@@ -114,7 +114,7 @@ class CheckoutPaymentButton extends Component {
                   .functions()
                   .httpsCallable("chargeCustomer");
 
-                var money = "$";
+                // var money = "$";
                 //var priceString = data.price.toString();
                 //var priceParam = money.concat(priceString);
                 //console.log(priceParam);
