@@ -1,0 +1,174 @@
+import React, { Component } from "react";
+
+import BookingItem from "./BookingItem";
+
+//Redux
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+//MUI
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Paper from "@material-ui/core/Paper";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import { Link } from "react-router-dom";
+import Box from "@material-ui/core/Box";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+
+import firebase from "firebase";
+
+const styles = (theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(3),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  },
+  phoneNumGrid: {
+    top: "20px",
+  },
+  containerRoot: {
+    background: "white",
+  },
+  title: {
+    //textDecoration: "underline",
+    marginTop: 30,
+  },
+});
+
+class InProgress extends Component {
+  state = {
+    bookings: [],
+  };
+
+  getTimeComponents(time) {
+    var year = time.split("-")[0];
+    var month = time.split("-")[1];
+    var day = time.split("-")[2];
+    day = day.split(" ")[0];
+    var hour = time.split(" ")[1];
+    hour = hour.split(":")[0];
+    var min = time.split(" ")[1];
+    min = min.split(":")[1];
+
+    //var d = new Date("2015-03-25T12:00:00Z");
+    var d = new Date(
+      year + "-" + month + "-" + day + "T" + hour + ":" + min + ":00Z"
+    );
+
+    return d;
+  }
+  async getBookings(n) {
+    //this function retrieves all the vehicles within the users vehicle node
+    let time = this;
+
+    console.log("wewewewe");
+
+    var query = firebase
+      .database()
+      .ref(`Users/${this.props.user.uid}/driver_bookings`)
+      .orderByKey();
+    query.on("value", function (snapshot) {
+      var bookingsArray = [];
+
+      snapshot.forEach(function (childSnapshot) {
+        // gets vehicle unique id
+
+        // gets vehicle license plate
+        var start = time.getTimeComponents(childSnapshot.child("date").val());
+        var end = time.getTimeComponents(childSnapshot.child("endTime").val());
+        var current = new Date();
+        //var current = new Date().toISOString();
+
+        console.log("lalalalalala");
+        console.log("start: " + start);
+        console.log("end: " + end);
+        //console.log("current: " + current);
+
+        var key = childSnapshot.key;
+
+        // gets vehicle license plate
+        var address = childSnapshot.child("address").val();
+        var displayEndTime = childSnapshot.child("displayEndTime").val();
+        var displayStartTime = childSnapshot.child("displayStartTime").val();
+        var listingName = childSnapshot.child("listingName").val();
+
+        var price = childSnapshot.child("totalPrice").val();
+
+        var formatter = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        });
+
+        price = formatter.format(price);
+
+        if (
+          current.getTime() > start.getTime() &&
+          current.getTime() < end.getTime()
+        ) {
+          bookingsArray.push([
+            key,
+            address,
+            displayEndTime,
+            displayStartTime,
+            listingName,
+            price,
+          ]);
+        }
+
+        //pushes both to plates array
+      });
+
+      //set state to vehiclePlates to re-render
+      time.setState({
+        bookings: bookingsArray,
+      });
+    });
+  }
+
+  componentDidMount() {
+    const { user } = this.props;
+    this.getBookings(0);
+  }
+
+  render() {
+    const { classes, user } = this.props;
+
+    console.log("hahahhahah");
+    console.log(this.state.bookings);
+
+    return (
+      <List>
+        {this.state.bookings.map((item) => {
+          return (
+            <ListItem>
+              <BookingItem
+                listingName={item[4]}
+                address={item[1]}
+                displayEndTime={item[2]}
+                displayStartTime={item[3]}
+                bookingKey={item[0]}
+                price={item[5]}
+              />
+            </ListItem>
+          );
+        })}
+      </List>
+    );
+  }
+}
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps)(withStyles(styles)(InProgress));

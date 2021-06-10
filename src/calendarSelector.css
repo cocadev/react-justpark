@@ -1,0 +1,16 @@
+.datePicker {
+  border: none;
+  margin-top: 5%;
+  width: 150px;
+  user-select: 0;
+}
+
+.datePicker:focus {
+  outline: none;
+}
+
+#calendarContainer {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
