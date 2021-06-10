@@ -4,23 +4,11 @@ import BookingItem from "./BookingItem";
 
 //Redux
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 
 //MUI
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
-import Paper from "@material-ui/core/Paper";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import { Link } from "react-router-dom";
-import Box from "@material-ui/core/Box";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 
 import firebase from "firebase";
 
