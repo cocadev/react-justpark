@@ -2,9 +2,6 @@
 import React from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "../../util/firebase";
-
-import Button from "@material-ui/core/Button";
-
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 

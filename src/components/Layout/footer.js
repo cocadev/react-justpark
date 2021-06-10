@@ -54,7 +54,7 @@ class Footer extends Component {
               <Typography variant="h6">Resources</Typography>
               <ul>
                 <li>
-                  <a target="_blank" href="https://prked.zendesk.com/hc/en-us">
+                  <a target="_blank" href="https://prked.zendesk.com/hc/en-us" rel="noreferrer">
                     FAQ's
                   </a>
                 </li>

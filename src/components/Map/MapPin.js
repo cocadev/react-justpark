@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
 function MapPin({ spotInfo, price }) {
-  const [hovered, setHovered] = useState(false);
+  // const [hovered, setHovered] = useState(false);
 
   function mouseHover(e) {
-    setHovered(true);
+    // setHovered(true);
     e.target.style.background = "lightgreen";
     e.target.style.color = "black";
     console.log(`searching for id spotListing${spotInfo.spotId}`);
@@ -15,7 +15,7 @@ function MapPin({ spotInfo, price }) {
   }
 
   function mouseLeave(e) {
-    setHovered(false);
+    // setHovered(false);
     e.target.style.background = "#4a8f88";
     e.target.style.color = "white";
     let listingElement = document.getElementById(

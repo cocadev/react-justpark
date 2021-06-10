@@ -144,8 +144,6 @@ class myVehicles extends React.Component {
 
   deleteVehicle(item) {
     //this function deletes the selected vehicle
-    var main;
-    var mainVal;
     var lastAddedKey;
     var lastAddedVal;
     var bool = false;

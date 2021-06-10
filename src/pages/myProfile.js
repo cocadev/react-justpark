@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Container from "@material-ui/core/Container";
 
-const styles = (theme) => ({});
+const styles = () => ({});
 
 class myProfile extends Component {
   /*constructor() {
@@ -30,7 +30,6 @@ class myProfile extends Component {
     this.mapUserDetailsToState(user);
   }
   render() {
-    const { classes, user } = this.props;
     return (
       <Container>
         <MyProfile />

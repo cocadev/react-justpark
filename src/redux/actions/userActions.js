@@ -1,8 +1,5 @@
 import {
   SET_USER,
-  SET_ERRORS,
-  CLEAR_ERRORS,
-  LOADING_UI,
   SAVE_USER,
   SET_UNAUTHENTICATED,
   LOADING_USER,
@@ -18,7 +15,7 @@ export const setUserData = (userData) => (dispatch) => {
 export const saveUserData = (userData, history) => (dispatch) => {
   dispatch({ type: SAVE_USER });
 
-  if (userData.created == userData.lastSignin) {
+  if (userData.created === userData.lastSignin) {
     db.ref("Users/" + userData.uid).set({
       firstName: userData.firstName,
       lastName: userData.lastName,

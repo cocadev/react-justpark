@@ -9,7 +9,6 @@ import {
   Elements,
   useElements,
   useStripe,
-  CardNumberElement,
 } from "@stripe/react-stripe-js";
 
 import firebase from "firebase";
