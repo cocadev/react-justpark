@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# Clone of justpart booking website
+
+<img src="screenshot.png" />
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
