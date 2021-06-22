@@ -4,13 +4,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
 import StarRatings from "react-star-ratings";
 import firebase from "firebase";
 import Modal from "@material-ui/core/Modal";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "@material-ui/core/Button";
 import moment from "moment";
+import CustomText from "../../Atom/CustomText";
 
 const styles = (theme) => ({
   root: {
@@ -120,7 +120,7 @@ class BookingReview extends Component {
       reviewKey: reviewKey,
     });
 
-    const { classes } = this.props;
+    // const { classes } = this.props;
   }
 
   submitReview = (e) => {
@@ -153,8 +153,8 @@ class BookingReview extends Component {
     return (
       <div>
         {this.state.rated ? (
-          <di>
-            <br></br>
+          <div>
+            <br/>
             <Modal
               disablePortal
               disableEnforceFocus
@@ -181,12 +181,13 @@ class BookingReview extends Component {
                 </form>
               </div>
             </Modal>
-          </di>
+          </div>
         ) : (
           <br></br>
         )}
 
-        <Typography variant="h6">How was your parking?</Typography>
+        <CustomText title="How was your parking?" type="title" />
+
         <br></br>
 
         {!this.props.user_reviewed ? (
@@ -200,7 +201,7 @@ class BookingReview extends Component {
             name="rating"
           />
         ) : (
-          <Typography variant="h6">Thank you for your feedback</Typography>
+          <CustomText title="Thank you for your feedback" type="description" />
         )}
       </div>
     );

@@ -1,41 +1,45 @@
 import React from "react";
-
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
-
-import Dashboard from "./dashboard";
-
 import firebase from "firebase";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+import CustomText from "../components/Atom/CustomText";
 
-//import { withStyles } from "@material-ui/core/styles";
-//import React, {Component} from "react";
-
-const useStyles = (theme) => ({
+const useStyles = () => ({
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20
+  },
   btn: {
-    fontSize: 60,
-    backgroundColor: "violet",
-  },
-  title: {
-    //textDecoration: "underline",
-    marginTop: 30,
-  },
-  field: {
-    marginTop: 10,
-    //marginBottom: 20,
-    display: "block",
+    width: 120,
+    height: 40,
+    marginLeft: 20
   },
   grid: {
     marginTop: 30,
   },
+  listItem: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 10,
+    '& div': {
+      borderRadius: 4,
+      borderRadius: 4,
+      border: '1px solid #dee2e8',
+      background: '#f8f9fb',
+      padding: 22,
+      width: '100%',
+      padding: 18,
+      marginRight: 12
+    }
+  }
 });
 
 var userId;
@@ -70,7 +74,7 @@ class myVehicles extends React.Component {
       .orderByKey();
     query.on("value", function (snapshot) {
       var plates = [];
-      var num = [];
+      // var num = [];
       snapshot.forEach(function (childSnapshot) {
         // gets vehicle unique id
         var key = childSnapshot.key;
@@ -165,8 +169,8 @@ class myVehicles extends React.Component {
               lastAddedVal = snapshot.child("/license_plate").val();
             }
             if (snapshot.key == "main") {
-              main = snapshot.child("/key").val();
-              mainVal = snapshot.child("/value").val();
+              // main = snapshot.child("/key").val();
+              // mainVal = snapshot.child("/value").val();
               if (item[0] == snapshot.child("/key").val()) {
                 bool = true;
               }
@@ -193,72 +197,57 @@ class myVehicles extends React.Component {
 
     return (
       <Container>
-        <Dashboard />
+        {/* <Dashboard /> */}
         <Grid
           container
           direction="row"
           justify="center"
           alignItems="center"
-          spacing={4}
+          spacing={2}
           className={classes.grid}
         >
           <Card>
-            <CardContent>
-              <Grid item xs={12} sm={6}>
-                <Typography className={classes.title} variant="h4" gutterBottom>
-                  Vehicles
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="h7" gutterBottom>
-                  Below is a list of all the vehicles you have registered with
-                  JustPark. You can also add new vehicles or delete old ones
-                  from this page.
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
+            <CardContent style={{ margin: '18px 22px' }}>
+              <CustomText title={'Vehicles'} type={'title'} />
+              <CustomText title={'Below is a list of all the vehicles you have registered with JustPark. You can also add new vehicles or delete old ones from this page.'} type={'description'} />
+              <div className={classes.row}>
                 <form>
                   <TextField
                     error={this.state.textError}
-                    className={classes.field}
+                    variant="outlined"
                     id="plateNumber"
-                    label="Enter vehicle number plate"
-                    color="primary"
+                    label="Vehicle number plate"
+                    size='small'
                     fullWidth
                   />
                 </form>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <CardActions>
-                  <Button
-                    //className={classes.btn}
+                <Button
+                  variant="contained"
+                  className={classes.btn}
+                  onClick={() =>
+                    this.writeUserData(
+                      userId,
+                      document.getElementById("plateNumber").value
+                    )
+                  }
+                  color="primary"
+                >
+                  Add
+                </Button>
+              </div>
 
-                    onClick={() =>
-                      this.writeUserData(
-                        userId,
-                        document.getElementById("plateNumber").value
-                      )
-                    }
-                    color="primary"
-                  >
-                    + Add another vehicle
-                  </Button>
-                </CardActions>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <List>
-                  {this.state.vehiclePlates.map((item) => {
-                    return (
-                      <ListItem>
-                        {item[1]}
-                        <Button onClick={() => this.deleteVehicle(item)}>
-                          Delete Vehicle
-                        </Button>
-                      </ListItem>
-                    );
-                  })}
-                </List>
-              </Grid>
+              <List>
+                {this.state.vehiclePlates.map((item) => {
+                  return (
+                    <div className={classes.listItem}>
+                      <div>{item[1]}</div>
+                      <Button variant="contained" color="secondary" onClick={() => this.deleteVehicle(item)}>
+                        Delete Vehicle
+                      </Button>
+                    </div>
+                  );
+                })}
+              </List>
             </CardContent>
           </Card>
         </Grid>

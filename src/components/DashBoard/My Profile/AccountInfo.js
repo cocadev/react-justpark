@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import { Grid, Container, Typography, TextField, Button, withStyles } from "@material-ui/core";
 
 import { editUserData, setUserData } from "../../../redux/actions/userActions";
+import CustomText from "../../Atom/CustomText";
 
 const styles = (theme) => ({
   root: {
@@ -101,15 +102,12 @@ class AccountInfo extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
   render() {
-    const { classes } = this.props;
 
     return (
-      <Container>
-        <Typography className={classes.title} variant="h5">
-          Account Information
-        </Typography>
+      <Container style={{margin: '20px 0 15px'}}>
+         <CustomText title={'Account Information'} type={'title'}/> 
 
-        <Typography variant="h7" color="textSecondary">You can edit your Prked profile information below. Clicking on the reset password button will send a reset link to your email.</Typography>
+        <CustomText type={'description'} title={'You can edit your Prked profile information below. Clicking on the reset password button will send a reset link to your email.'}/> 
 
         <Grid container spacing={2} style={{ marginTop: "20px" }}>
           <Grid item xs={12} sm={6}>

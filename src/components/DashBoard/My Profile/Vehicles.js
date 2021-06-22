@@ -9,6 +9,7 @@ import { Grid, Container, Typography, Button, withStyles } from "@material-ui/co
 import AddIcon from "@material-ui/icons/Add";
 
 import firebase from "firebase";
+import CustomText from "../../Atom/CustomText";
 
 var userId;
 
@@ -39,10 +40,30 @@ const styles = (theme) => ({
     margin: "30px 0 20px",
   },
   addButton: {
+    color: '#999',
     padding: "20px 0",
     border: "1px dashed #cdd3db",
     borderRadius: "0",
     background: "#f8f9fb"
+  },
+  listItem: {
+    width: '100%',
+    marginTop: 10,
+    marginBottom: 25,
+    '& div': {
+      borderRadius: 4,
+      border: '1px solid #dee2e8',
+      background: '#f8f9fb',
+      padding: 22,
+      marginRight: 12
+    }
+  },
+  viewText: {
+    textDecoration: 'underline',
+    fontSize: 13,
+    fontFamily: 'Nunito,Avenir,sans-serif',
+    cursor: 'pointer',
+    textTransform: "none"
   }
 });
 
@@ -70,35 +91,50 @@ class Vehicles extends Component {
 
   render() {
     const { classes } = this.props;
+    const { currentVehicle } = this.state;
 
     return (
-      <Container>
-        <Typography className={classes.title} variant="h5">
-          Vehicles
-        </Typography>
+      <Container style={{ margin: '20px 0 15px' }}>
+        <CustomText title="Vehicles" type="title" />
 
-        <Typography variant="h7" color="textSecondary">Your most recently used vehicle is listed below. To add more, or view all your vehicles, please click the "View more details" link.</Typography>
-        
-        <Grid container spacing={2} style={{ marginTop: "20px" }}>
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Typography variant="h7">
-              Current Vehicle: {this.state.currentVehicle}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+        <CustomText
+          type="description"
+          title={
+            currentVehicle
+              ? 'Your most recently used vehicle is listed below. To add more, or view all your vehicles, please click the "View more details" link.'
+              : 'You have no vehicles added. Click below to add your first vehicle.'
+          }
+        />
+
+        <div style={{ marginTop: "20px" }}>
+          <div className={classes.listItem}>
+            <div>{currentVehicle}</div>
+          </div>
+          {!currentVehicle && <Button
+            fullWidth
+            variant="outlined"
+            to="/dashboard/vehicles"
+            component={Link}
+            onClick={this.handleSubmit}
+            startIcon={<AddIcon />}
+            className={classes.addButton}
+          >
+            Click To Add a Vehicle
+          </Button>}
+          {
+            currentVehicle &&
             <Button
-              fullWidth
-              variant="outlined"
-              to="/vehicles"
+              to="/dashboard/vehicles"
               component={Link}
-              onClick={this.handleSubmit}
-              startIcon={<AddIcon />}
-              className={classes.addButton}
+              className={classes.viewText}
+              disableRipple={true}
+              disableElevation={true}
+              variant='text'
             >
-              Click To Add a Vehicle
+              View more details
             </Button>
-          </Grid>
-        </Grid>
+          }
+        </div>
       </Container>
     );
   }

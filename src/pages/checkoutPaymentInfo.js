@@ -1,42 +1,45 @@
-import { Container, Typography } from "@material-ui/core";
 import React, { Component } from "react";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import Button from "@material-ui/core/Button";
-
-//Redux
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
 import { loadStripe } from "@stripe/stripe-js";
 import withStyles from "@material-ui/core/styles/withStyles";
-import {
-  Elements,
-  useElements,
-  useStripe,
-  CardNumberElement,
-} from "@stripe/react-stripe-js";
-
+import { Elements, useElements, useStripe } from "@stripe/react-stripe-js";
 import firebase from "firebase";
+import { CardElement } from "@stripe/react-stripe-js";
+import CustomText from "../components/Atom/CustomText";
 
-import { CardElement, ElementsConsumer } from "@stripe/react-stripe-js";
-
-const useStyles = (theme) => ({
-  listItem: {
-    backgroundColor: "violet",
-  },
+const useStyles = () => ({
   title: {
-    //textDecoration: "underline",
     marginTop: 30,
   },
   field: {
     marginTop: 10,
-    //marginBottom: 20,
     display: "block",
   },
   grid: {
     marginTop: 30,
   },
+  detail: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 10,
+    cursor: 'pointer',
+    '& div': {
+      borderRadius: 4,
+      borderRadius: 4,
+      border: '1px solid #dee2e8',
+      background: '#f8f9fb',
+      padding: 22,
+      width: '100%',
+      padding: 18,
+      marginRight: 12,
+      '& b': {
+        textTransform: 'uppercase'
+      }
+    }
+  }
 });
 
 const stripePromise = loadStripe("pk_test_fBjUAdEgBIK3XRZQ3mOGsxAd00wMisVYso");
@@ -134,23 +137,26 @@ const CheckoutForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <CardElement
-        options={{
-          style: {
-            base: {
-              fontSize: "16px",
-              color: "#424770",
-              "::placeholder": {
-                color: "#aab7c4",
+      <div style={{ border: '1px solid #e6e9ed', padding: 12 }}>
+        <CardElement
+          options={{
+            style: {
+              base: {
+                fontSize: "16px",
+                color: "#424770",
+                "::placeholder": {
+                  color: "#aab7c4",
+                },
+              },
+              invalid: {
+                color: "#9e2146",
               },
             },
-            invalid: {
-              color: "#9e2146",
-            },
-          },
-        }}
-      />
-      <Button type="submit" disabled={!stripe}>
+          }}
+        />
+      </div>
+
+      <Button style={{ textTransform: 'none' }} type="submit" disabled={!stripe}>
         + Add Payment Method
       </Button>
     </form>
@@ -280,61 +286,55 @@ class checkoutPaymentInfo extends Component {
 
   render() {
     const { classes } = this.props;
-    const { stripe } = this.props;
     return (
-      <Container>
+      <div>
         {this.state.paymentExists ? (
-          <Container>
+          <div>
             {this.state.addPayment ? (
-              <Container>
+              <div>
                 <Elements stripe={stripePromise}>
                   <CheckoutForm />
                 </Elements>
                 <Button onClick={() => this.addPaymentMethod()}>cancel</Button>
-              </Container>
+              </div>
             ) : (
-              <Container>
-                <Typography variant="h6">
-                  Current Payment Method - {this.state.brand} ending in{" "}
-                  {this.state.last4}
-                </Typography>
-                <Typography variant="h9">Select Payment Method</Typography>
+              <div>
+                <div className={classes.detail}>
+                  <div><b>{this.state.brand}</b> ending in{" "}
+                    {this.state.last4}</div>
+                </div>
+
+                <CustomText title='Select Payment Method' type="formTitle" mt={25} />
 
                 <List>
                   {this.state.pmArray.map((item) => {
                     if (item[3] == this.state.isDefault) {
                       return (
-                        <ListItem className={classes.listItem}>
-                          {item[1]} ending in {item[0]}
-                          <Button onClick={() => this.selectMethod(item)}>
-                            Select
-                          </Button>
-                        </ListItem>
+                        <div className={classes.detail} onClick={() => this.selectMethod(item)}>
+                          <div style={{ backgroundColor: "violet" }} ><b>{item[1]}</b> ending in {item[0]}</div>
+                        </div>
                       );
                     } else {
                       return (
-                        <ListItem>
-                          {item[1]} ending in {item[0]}
-                          <Button onClick={() => this.selectMethod(item)}>
-                            Select
-                          </Button>
-                        </ListItem>
+                        <div className={classes.detail} onClick={() => this.selectMethod(item)}>
+                          <div><b>{item[1]}</b> ending in {item[0]}</div>
+                        </div>
                       );
                     }
                   })}
                 </List>
-                <Button onClick={() => this.addPaymentMethod()}>
+                <Button style={{ textTransform: 'none' }} onClick={() => this.addPaymentMethod()}>
                   + Add another payment method
                 </Button>
-              </Container>
+              </div>
             )}
-          </Container>
+          </div>
         ) : (
           <Elements stripe={stripePromise}>
             <CheckoutForm />
           </Elements>
         )}
-      </Container>
+      </div>
     );
   }
 }

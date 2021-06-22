@@ -1,14 +1,24 @@
 import React from "react";
 import firebase from "firebase/app";
-
 import { GeoFire } from "geofire";
 import { Drawer, Tabs, Tab, withStyles } from "@material-ui/core";
-
 import Map from "../Map/Map";
 import ListingsContainer from "../Map/ListingsContainer";
 import { SpaceAvailabilityCheck } from "../../util/SpaceAvailabilityCheck";
 
 const styles = (theme) => ({
+  listings: {
+    display: 'block',
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
+  },
+  listingsMobile: {
+    display: 'none',
+    [theme.breakpoints.down('sm')]: {
+      display: 'block'
+    }
+  },
   listingsPaper: {
     top: 150,
     width: theme.layout.listingBar.width,
@@ -25,6 +35,9 @@ const styles = (theme) => ({
   },
   mapArea: {
     marginLeft: theme.layout.listingBar.width,
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: 0
+    }
   },
 });
 
@@ -75,6 +88,7 @@ class ListingExplorer extends React.Component {
     var lat = this.props.chosenLocation.lat;
     var lng = this.props.chosenLocation.lng;
     var coords = [lat, lng];
+    console.log(`this is the coords!!!!!  ${coords}`);
 
     //Stores keys of spots within the search radius
     var spotKeys = [];
@@ -113,7 +127,7 @@ class ListingExplorer extends React.Component {
 
     //Retrieves spots from firebase and adds them to the listings[] if their spotId is in spotKeys[]
     let dataSnapshot = database.ref("Spots");
-    dataSnapshot.on("value", (parent) => {
+    dataSnapshot.get().then((parent) => {
       parent.forEach((child) => {
         console.log("7");
         let childData = child.val();
@@ -196,6 +210,15 @@ class ListingExplorer extends React.Component {
             Closest Locations
           </TabPanel>
         </Drawer>
+
+        <div className={classes.listingsMobile}>
+          <div style={{display: 'flex', flexDirection: 'row', position: 'absolute', left: 0, bottom: 110}}>
+            {this.state.listings.map((item, index)=> <div>
+              Hey {index}
+            </div>)}
+          </div>
+        </div>
+
         <div className={classes.mapArea}>
           <Map
             chosenLocation={this.props.chosenLocation}

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import MyBookings from "../components/DashBoard/My Bookings/MyBookings";
 
 //Redux
@@ -7,7 +8,6 @@ import PropTypes from "prop-types";
 
 import withStyles from "@material-ui/core/styles/withStyles";
 import Container from "@material-ui/core/Container";
-
 import firebase from "firebase";
 
 var userId;
@@ -20,7 +20,7 @@ firebase.auth().onAuthStateChanged(function (user) {
   }
 });
 
-const styles = (theme) => ({});
+const styles = () => ({});
 
 class myBookings extends Component {
   /*constructor() {
@@ -42,7 +42,6 @@ class myBookings extends Component {
   }
   render() {
     console.log(userId);
-    const { classes, user } = this.props;
     return (
       <Container>
         <MyBookings userId={userId} />

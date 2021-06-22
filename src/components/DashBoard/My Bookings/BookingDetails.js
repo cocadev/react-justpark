@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-
-//Redux
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-
 import { isIOS } from "react-device-detect";
+import CustomText from "../../Atom/CustomText";
+import BookingItemTime from "./BookingItemTime";
 
 class BookingDetails extends Component {
   state = {
@@ -26,27 +25,30 @@ class BookingDetails extends Component {
 
   render() {
     return (
-      <div>
-        <Typography variant="h6">{this.props.address}</Typography>
-        <br></br>
-        <Typography variant="h7">
-          Booking Ref: {this.props.bookingKey}
-        </Typography>
+      <div style={{position: 'relative'}}>
+        <CustomText type="title" title={this.props.address} />
+        
+        <CustomText type="description" title={'Booking Ref:' + this.props.bookingKey} />
         <br></br>
         {!this.props.user_reviewed ? (
           <Typography variant="h7">lll</Typography>
         ) : (
           <Typography variant="h7">You rated: {this.props.rating}</Typography>
         )}
-        <br></br>
-        <Typography variant="h7">From {this.props.startTime}</Typography>
-        <br></br>
-        <Typography variant="h7">To {this.props.endTime}</Typography>
-        <br></br>
+        <br /> <br />
 
+        <BookingItemTime
+          from={this.props.startTime}
+          to={this.props.endTime}
+        />
+
+        <br />
         {!isIOS ? (
           <Button
             type="button"
+            color='primary'
+            fullWidth
+            variant='contained'
             onClick={(e) => {
               e.preventDefault();
               window.location.href =
@@ -59,6 +61,9 @@ class BookingDetails extends Component {
         ) : (
           <Button
             type="button"
+            color='primary'
+            fullWidth
+            variant='contained'
             onClick={(e) => {
               e.preventDefault();
               window.location.href =

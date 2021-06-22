@@ -25,7 +25,8 @@ const styles = (theme) => ({
   searchButton: {
     paddingTop: 14,
     paddingBottom: 14,
-    marginTop: 12,
+    marginTop: 11,
+    marginBottom: 2,
     width: 120
   },
 });
@@ -34,14 +35,30 @@ class mapPage extends Component {
   constructor(props) {
     super(props);
 
+    const queryParams = new URLSearchParams(window.location.search);
+
+    const address = queryParams.get("address");
+    const lat = Number(queryParams.get("lat"));
+    const lng = Number(queryParams.get("lng"));
+    const place_id = queryParams.get("place_id");
+    const arriving = new Date(queryParams.get("arriving"));
+    const leaving = new Date(queryParams.get("leaving"));
+
+    let location = {
+      address: address,
+      lat: lat,
+      lng: lng,
+      place_id: place_id,
+    };
+
     this.state = {
-      locationSelected: null,
-      startDate: null,
-      endDate: null,
+      locationSelected: location,
+      startDate: arriving,
+      endDate: leaving,
       datesValid: true,
     };
     this.listingExplorerComponent = React.createRef();
-    this.state = this.props.location.state;
+    //this.state = this.props.location.state;
     this.userLocationInputCallback = this.userLocationInputCallback.bind(this);
     this.userDateSelectionCallback = this.userDateSelectionCallback.bind(this);
   }
@@ -134,14 +151,15 @@ class mapPage extends Component {
     );
   }
 
-  renderDateTimePickerOld() {
+  //renderDateTimePicker(address) {
+  renderDateTimePickerOld(address) {
     const { classes } = this.props;
 
     return (
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <SearchBar
-            value={this.state.locationSelected.address}
+            value={address}
             parentCallback={(location) => {
               this.userLocationInputCallback(location);
             }}
@@ -195,80 +213,72 @@ class mapPage extends Component {
 
     return (
       <Paper style={{ padding: "0 10px" }}>
-        <Grid
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="center"
-          spacing={2}
-        >
-          <Grid item xs={12} sm={12} md={7} lg={7} xl={7}>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
             <SearchBar
               value={this.state.locationSelected.address}
               parentCallback={(location) => {
                 this.userLocationInputCallback(location);
               }}
+              search={true}
             />
-          </Grid>
+
           <form noValidate>
-            <Grid container spacing={2} style={{marginTop: 0}}>
-              <Grid item xs={12} sm={6} className={classes.startDate}>
-                <TextField
-                  id="Start"
-                  variant="outlined"
-                  name="startDate"
-                  label="Arriving On"
-                  type="datetime-local"
-                  fullWidth={true}
-                  defaultValue={startDate}
-                  onChange={this.userDateSelectionCallback}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  InputProps={{
-                    style: { fontWeight: "700" },
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  id="End"
-                  variant="outlined"
-                  name="endDate"
-                  label="Leaving On"
-                  type="datetime-local"
-                  fullWidth={true}
-                  defaultValue={endDate}
-                  onChange={this.userDateSelectionCallback}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  InputProps={{
-                    style: { fontWeight: "700" },
-                  }}
-                />
-              </Grid>
-            </Grid>
+            <div style={{ display: 'flex', flexDirection: 'row', marginTop: 12, marginLeft: 12, marginRight: 12 }}>
+              <TextField
+                id="Start"
+                variant="outlined"
+                name="startDate"
+                label="Arriving On"
+                type="datetime-local"
+                fullWidth={true}
+                defaultValue={startDate}
+                onChange={this.userDateSelectionCallback}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                InputProps={{
+                  style: { fontWeight: "700" },
+                }}
+                style={{ marginRight: 12 }}
+              />
+              <TextField
+                id="End"
+                variant="outlined"
+                name="endDate"
+                label="Leaving On"
+                type="datetime-local"
+                fullWidth={true}
+                defaultValue={endDate}
+                onChange={this.userDateSelectionCallback}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                InputProps={{
+                  style: { fontWeight: "700" },
+                }}
+              />
+            </div>
+
           </form>
-          <Grid item xs={12} sm={12} md={1} lg={1} xl={1}>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth={true}
-              size="large"
-              className={classes.searchButton}
-              onClick={this.handleClick}
-            >
-              Search
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth={true}
+            size="large"
+            className={classes.searchButton}
+            onClick={this.handleClick}
+          >
+            Search
             </Button>
-          </Grid>
-        </Grid>
+        </div>
       </Paper>
     );
   }
 
   // the render after user has initially selected a location
   mainRender() {
+    console.log(this.state.locationSelected); // 55 test null
+
     return (
       <>
         {this.renderDateTimePicker()}

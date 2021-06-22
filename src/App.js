@@ -65,7 +65,14 @@ class App extends Component {
                     path="/dashboard/bookings"
                     component={Layout(MyBookings)}
                   />
-                  <Route exact path="/vehicles" component={MyVehicles} />
+
+                  <Route
+                    exact
+                    path="/dashboard/vehicles"
+                    component={Layout(MyVehicles)}
+                  />
+
+                  {/* <Route exact path="/vehicles" component={MyVehicles} /> */}
                   <Route exact path="/bookinginfo" component={BookingInfo} />
                   <Route
                     exact

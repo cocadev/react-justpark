@@ -4,13 +4,13 @@ import BookingItem from "./BookingItem";
 
 //Redux
 import { connect } from "react-redux";
-
-//MUI
 import withStyles from "@material-ui/core/styles/withStyles";
+
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
 import firebase from "firebase";
+import BookingNotFound from "./BookingNotFound";
 
 const styles = (theme) => ({
   root: {
@@ -124,19 +124,18 @@ class InProgress extends Component {
   }
 
   componentDidMount() {
-    const { user } = this.props;
     this.getBookings(0);
   }
 
   render() {
-    const { classes, user } = this.props;
 
     console.log("hahahhahah");
     console.log(this.state.bookings);
+    const { bookings } = this.state;
 
     return (
       <List>
-        {this.state.bookings.map((item) => {
+        {bookings.map((item) => {
           return (
             <ListItem>
               <BookingItem
@@ -150,6 +149,12 @@ class InProgress extends Component {
             </ListItem>
           );
         })}
+
+        {
+          bookings.length === 0 &&
+          <BookingNotFound title="In Progress"/>
+        }
+
       </List>
     );
   }

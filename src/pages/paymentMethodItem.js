@@ -1,15 +1,10 @@
 import React, { Component } from "react";
-
-//Redux
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
-//MUI
 import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Divider } from "@material-ui/core";
+import { Card } from "@material-ui/core";
 
 const styles = (theme) => ({
   root: {
@@ -35,6 +30,12 @@ const styles = (theme) => ({
     //marginBottom: 20,
     //display: "block",
   },
+  container: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
+    padding: 20
+  }
 });
 
 class paymentMethodItem extends Component {
@@ -61,7 +62,7 @@ class paymentMethodItem extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
   render() {
-    const { classes, user } = this.props;
+    const { classes } = this.props;
 
     console.log("yayayayayayay");
     console.log(this.props.last4);
@@ -69,25 +70,19 @@ class paymentMethodItem extends Component {
     console.log(this.props.expMonth);
 
     return (
-      <Container>
-        <Grid>
-          <Grid item>
-            <Typography variant="h5">{this.props.last4}</Typography>
-          </Grid>
-
-          <Grid item>
-            <Typography variant="h7">{this.props.brand}</Typography>
-          </Grid>
-          <Grid item className={classes.field}>
-            <Typography variant="h8">
-              {this.props.expMonth}/{this.props.expYear}
-            </Typography>
-          </Grid>
-          <Grid item className={classes.divider}>
-            <Divider></Divider>
-          </Grid>
+      <Card className={classes.container}>
+        <Grid item>
+          <Typography variant="h5">{this.props.last4}</Typography>
+          <Typography variant="h7">{this.props.brand}</Typography>
         </Grid>
-      </Container>
+
+        <Grid item className={classes.field}>
+          <Typography variant="h8">
+            {this.props.expMonth}/{this.props.expYear}
+          </Typography>
+        </Grid>
+
+      </Card>
     );
   }
 }

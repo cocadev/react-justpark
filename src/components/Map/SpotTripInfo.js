@@ -30,6 +30,8 @@ const styles = {
 export class SpotTripInfo extends Component {
   render() {
     const { classes } = this.props;
+
+    let price = this.props.price;
     return (
       <div>
         <Grid container spacing={1}>
@@ -46,7 +48,7 @@ export class SpotTripInfo extends Component {
           <Grid item md={4}>
             <Paper className={classes.paper}>
               <Typography className={classes.typoBold} align="center">
-                $2.50
+                ${price}
               </Typography>
               <Typography className={classes.typoGray} align="center">
                 Total Price

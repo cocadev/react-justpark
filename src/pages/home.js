@@ -863,15 +863,44 @@ class home extends Component {
     // if (!this.state.locationSelected) {
     // comment next line and uncomment ^ so it starts without valid date for testing
 
-    return (
-      <>
-        {this.heroRender()}
-        {this.downloadAppRender()}
-        {this.parkingMadeEasyRender()}
-        {this.testimonialRender()}
-        <Footer />
-      </>
-    );
+    if (!this.state.locationSelected || !this.state.datesValid) {
+      //return this.renderDateTimePicker();
+      return (
+        <>
+          {this.heroRender()}
+          {this.downloadAppRender()}
+          {this.parkingMadeEasyRender()}
+          {this.testimonialRender()}
+          <Footer />
+        </>
+      );
+    } else {
+      //this.props.history.push("/search");
+      let address = this.state.locationSelected.address;
+      let lat = this.state.locationSelected.lat;
+      let lng = this.state.locationSelected.lng;
+      let id = this.state.locationSelected.placeId;
+      this.props.history.push({
+        pathname: "/search",
+        //search: `?lat=${lat}&long=${long}&place_id=${id}&arriving=${this.state.startDate}&leaving=${this.state.endDate}`,
+        search: `?lat=${lat}&lng=${lng}&place_id=${id}&address=${address}&arriving=${this.state.startDate}&leaving=${this.state.endDate}`,
+        state: {
+          locationSelected: this.state.locationSelected,
+          startDate: this.state.startDate,
+          endDate: this.state.endDate,
+          datesValid: this.state.datesValid,
+        },
+      });
+      return (
+        <>
+          {this.heroRender()}
+          {this.downloadAppRender()}
+          {this.parkingMadeEasyRender()}
+          {this.testimonialRender()}
+          <Footer />
+        </>
+      );
+    }
   }
 }
 

@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
+import CustomText from "../../Atom/CustomText";
 
 const styles = (theme) => ({
   root: {
@@ -32,6 +33,10 @@ const styles = (theme) => ({
     //marginBottom: 20,
     display: "block",
   },
+  btn: {
+    marginTop: 20,
+    textTransform: 'none'
+  }
 });
 
 class BookingInstructions extends Component {
@@ -52,10 +57,10 @@ class BookingInstructions extends Component {
 
   render() {
     // see https://developers.google.com/maps/documentation/javascript/3.exp/reference#StreetViewPanoramaOptions
-
+    const { classes } = this.props;
     return (
       <div>
-        <Typography variant="h6">Access Instructions</Typography>
+        <CustomText title="Access Instructions" type="title"/>
         <Typography variant="h7">{this.props.instructions}</Typography>
         <br></br>
         <Link
@@ -64,7 +69,13 @@ class BookingInstructions extends Component {
             state: { lat: this.props.lat, long: this.props.long },
           }}
         >
-          <Button>View Streetview</Button>
+          <Button
+            className={classes.btn}
+            variant='outlined'
+            fullWidth
+          >
+            View Streetview
+          </Button>
         </Link>
       </div>
     );

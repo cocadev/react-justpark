@@ -1,13 +1,25 @@
 import React, { Component } from "react";
-
-//Redux
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import BookingDetails from "../components/DashBoard/My Bookings/BookingDetails";
 import BookingInstructions from "../components/DashBoard/My Bookings/BookingInstructions";
 import BookingReview from "../components/DashBoard/My Bookings/BookingReview";
-
 import firebase from "firebase";
+import SideBar from "../components/DashBoard/SideBar/SideBar";
+import withStyles from "@material-ui/core/styles/withStyles";
+import { Grid, Container, Card } from "@material-ui/core";
+import CustomText from "../components/Atom/CustomText";
+
+const styles = (theme) => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    height: '100vh',
+  },
+  card: {
+    padding: 25
+  }
+});
 
 class bookingInfo extends Component {
   state = {
@@ -37,12 +49,12 @@ class bookingInfo extends Component {
 
     var userName = "";
 
-    var name = firebase
-      .database()
-      .ref(`Users/${this.props.user.uid}`)
-      .on("value", (snapshot) => {
-        userName = snapshot.child("firstName").val();
-      });
+    // var name = firebase
+    //   .database()
+    //   .ref(`Users/${this.props.user.uid}`)
+    //   .on("value", (snapshot) => {
+    //     userName = snapshot.child("firstName").val();
+    //   });
 
     var query = firebase
       .database()
@@ -68,7 +80,7 @@ class bookingInfo extends Component {
         // gets vehicle unique id
         var key = childSnapshot.key;
 
-        if (key === foo) {
+        if (key == foo) {
           instructions = childSnapshot.child("instructions").val();
           address = childSnapshot.child("address").val();
           listinsName = childSnapshot.child("listinsName").val();
@@ -85,7 +97,7 @@ class bookingInfo extends Component {
 
           if (childSnapshot.child("user_reviewed").val() == null) {
             user_reviewed = false;
-          } else if (childSnapshot.child("user_reviewed").val() === true) {
+          } else if (childSnapshot.child("user_reviewed").val() == true) {
             user_reviewed = true;
           }
         }
@@ -121,33 +133,55 @@ class bookingInfo extends Component {
   render() {
     console.log("rerererere");
     console.log(this.state.rating);
-    var keys = "-MO4Bl2xLa3u0FT9C9zc";
+    const { classes } = this.props;
+
+    // var keys = "-MO4Bl2xLa3u0FT9C9zc";
     return (
-      <div>
-        <BookingDetails
-          address={this.state.address}
-          listinsName={this.state.listinsName}
-          streetName={this.state.streetName}
-          totalPrice={this.state.totalPrice}
-          startTime={this.state.startTime}
-          endTime={this.state.endTime}
-          bookingKey={this.state.bookingKey}
-          user_reviewed={this.state.user_reviewed}
-          rating={this.state.rating}
-        />
-        <BookingInstructions
-          instructions={this.state.instructions}
-          long={this.state.long}
-          lat={this.state.lat}
-        />
-        <BookingReview
-          bookingKey={this.state.bookingKey}
-          hostID={this.state.hostID}
-          userName={this.state.userName}
-          user_reviewed={this.state.user_reviewed}
-          rating={this.state.rating}
-          spotID={this.state.spotID}
-        />
+      <div className={classes.container}>
+        <SideBar />
+        <Container maxWidth="lg" style={{ marginTop: 40 }}>
+          <Grid container spacing={3} alignContent="center">
+            <Grid item sm={5} xs={12}>
+              <Card className={classes.card}>
+                <BookingDetails
+                  address={this.state.address}
+                  listinsName={this.state.listinsName}
+                  streetName={this.state.streetName}
+                  totalPrice={this.state.totalPrice}
+                  startTime={this.state.startTime}
+                  endTime={this.state.endTime}
+                  bookingKey={this.state.bookingKey}
+                  user_reviewed={this.state.user_reviewed}
+                  rating={this.state.rating}
+                />
+              </Card>
+              <Card className={classes.card} style={{ marginTop: 25 }}>
+                <BookingReview
+                  bookingKey={this.state.bookingKey}
+                  hostID={this.state.hostID}
+                  userName={this.state.userName}
+                  user_reviewed={this.state.user_reviewed}
+                  rating={this.state.rating}
+                  spotID={this.state.spotID}
+                />
+              </Card>
+            </Grid>
+            <Grid item sm={7} xs={12}>
+              <Card className={classes.card}>
+                <BookingInstructions
+                  instructions={this.state.instructions}
+                  long={this.state.long}
+                  lat={this.state.lat}
+                />
+              </Card>
+
+              <Card style={{ marginTop: 25, marginBottom: 20, padding: '45px 35px' }}>
+                <CustomText title="Payments and receipts" type="title" />
+              </Card>
+
+            </Grid>
+          </Grid>
+        </Container>
       </div>
     );
   }
@@ -162,4 +196,4 @@ bookingInfo.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps)(bookingInfo);
+export default connect(mapStateToProps)(withStyles(styles)(bookingInfo));

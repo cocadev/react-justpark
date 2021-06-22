@@ -1,16 +1,11 @@
 import React, { Component } from "react";
-
-//Redux
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
-//MUI
-import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Divider } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import CustomText from "../../Atom/CustomText";
+import BookingItemTime from "./BookingItemTime";
 
 const styles = (theme) => ({
   root: {
@@ -27,14 +22,32 @@ const styles = (theme) => ({
   containerRoot: {
     background: "white",
   },
-  field: {
-    //textDecoration: "underline",
-    marginTop: 10,
+  booking: {
+    background: '#fff',
+    marginTop: 12,
+    padding: '30px 20px',
+    boxShadow: '0 3px 4px 0 hsl(0deg 0% 59% / 30%)',
+    color: '#3e3e3e',
+    borderRadius: 4,
+    fontWeight: '500',
+    position: 'relative'
   },
-  divider: {
-    marginTop: 20,
-    //marginBottom: 20,
-    //display: "block",
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
+  borderline: {
+    width: 5,
+    height: 60,
+    borderTopRightRadius: 8,
+    borderBottomRightRadius: 8,
+    background: '#999',
+    position: 'absolute',
+    left: 0,
+    marginTop: -8
   },
 });
 
@@ -63,7 +76,7 @@ class BookingItem extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
   render() {
-    const { classes, user } = this.props;
+    const { classes } = this.props;
 
     return (
       <Container>
@@ -73,26 +86,24 @@ class BookingItem extends Component {
             state: { foo: this.props.bookingKey },
           }}
         >
-          <Grid>
-            <Grid item>
-              <Typography variant="h5">{this.props.listingName}</Typography>
-            </Grid>
+          <div className={classes.booking}>
+            <div className={classes.row}>
+              <div>
+                <div className={classes.borderline} />
+                <CustomText title={this.props.listingName} type="title" />
+                <CustomText title={this.props.address} type="description" mt={-10} />
+              </div>
+              <CustomText title={this.props.price} type="formTitle" />
+            </div>
+            <br/><br/>
 
-            <Grid item>
-              <Typography variant="h7">{this.props.address}</Typography>
-            </Grid>
-            <Grid item className={classes.field}>
-              <Typography variant="h8">
-                {this.props.displayStartTime} - {this.props.displayEndTime}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="h7">{this.props.price}</Typography>
-            </Grid>
-            <Grid item className={classes.divider}>
-              <Divider></Divider>
-            </Grid>
-          </Grid>
+            <BookingItemTime
+              from={this.props.displayStartTime}
+              to={this.props.displayEndTime}
+              left={true}
+            />
+
+          </div>
         </Link>
       </Container>
     );

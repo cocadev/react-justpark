@@ -79,7 +79,9 @@ class ConfirmationPrompt extends React.Component {
                 </Typography>
               </Grid>
             </Grid>
-            <SpotTripInfo></SpotTripInfo>
+            <SpotTripInfo
+              price={Number.parseFloat(this.state.price).toPrecision(4)}
+            ></SpotTripInfo>
           </Grid>
           <Grid item xs={5}>
             <p style={{ textAlign: "right", marginRight: "2ch" }}>
@@ -87,7 +89,7 @@ class ConfirmationPrompt extends React.Component {
             </p>
           </Grid>
           <Grid item xs={7}>
-            <p>${Number.parseFloat(this.state.price).toPrecision(3)}</p>
+            <p>${Number.parseFloat(this.state.price).toPrecision(4)}</p>
           </Grid>
           <Grid item xs={5}>
             <p style={{ textAlign: "right", marginRight: "2ch" }}>Start Date</p>

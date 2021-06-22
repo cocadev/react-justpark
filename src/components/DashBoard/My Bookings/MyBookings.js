@@ -2,97 +2,62 @@ import React, { Component } from "react";
 import InProgress from "./InProgress";
 import Past from "./Past";
 import Upcoming from "./Upcoming";
-
-//redux
-//Redux
+import { Tabs, Tab, withStyles, Container } from "@material-ui/core";
 import { connect } from "react-redux";
+import CustomText from "../../Atom/CustomText";
 
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
-import withStyles from "@material-ui/core/styles/withStyles";
-
-
-const styles = (theme) => ({});
-
-const useStyles = (theme) => ({
-  container: {
-    marginTop: 30,
+const styles = () => ({
+  tabs: {
+    borderBottom: '1px solid #cdd3db'
+  },
+  tab: {
+    textTransform: 'none',
+    maxWidth: 120,
+    fontSize: 16
   },
 });
 
 class MyBookings extends Component {
   state = {
-    isInProgress: true,
-    isPast: false,
-    isUpcoming: false,
-    output: <InProgress userId={this.props.userId} />,
+    tabValue: 0,
   };
-  mapUserDetailsToState = (user) => {};
+  mapUserDetailsToState = () => { };
 
   componentDidMount() {
     const { user } = this.props;
-
     this.mapUserDetailsToState(user);
-  }
-
-  inProgressClicked() {
-    console.log("progress clicked");
-    this.setState({
-      isInProgress: true,
-      isPast: false,
-      isUpcoming: false,
-      output: <InProgress userId={this.props.userId} />,
-    });
-  }
-  pastClicked() {
-    console.log("past clicked");
-    this.setState({
-      isInProgress: false,
-      isPast: true,
-      isUpcoming: false,
-      output: <Past userId={this.props.userId} />,
-    });
-  }
-  upcomingClicked() {
-    console.log("upcoming clicked");
-
-    this.setState({
-      isInProgress: false,
-      isPast: false,
-      isUpcoming: true,
-      output: <Upcoming userId={this.props.userId} />,
-    });
   }
 
   render() {
     const { classes } = this.props;
-
+    const { tabValue } = this.state;
+    const handleTabsChange = (event, newValue) => {
+      this.setState({ tabValue: newValue });
+    };
     return (
-      <Container className={classes.container}>
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-          spacing={4}
+      <Container style={{marginTop: 40 }}>
+        <CustomText type={'title'} title={'My Bookings'}/><br/>
+        <Tabs
+          value={tabValue}
+          onChange={handleTabsChange}
+          variant="fullWidth"
+          indicatorColor="primary"
+          aria-label="In progress"
+          className={classes.tabs}
         >
-          <Grid item lg={7}>
-            <Button onClick={() => this.inProgressClicked()}>
-              In Progress
-            </Button>
-            <Button onClick={() => this.upcomingClicked()}>Upcoming</Button>
-            <Button onClick={() => this.pastClicked()}>Past</Button>
-          </Grid>
-
-          <Grid item lg={7}>
-            <Card>
-              <CardContent>{this.state.output}</CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+          <Tab label="In progress" {...a11yProps(0)} className={classes.tab} />
+          <Tab label="Upcoming" {...a11yProps(1)} className={classes.tab} />
+          <Tab label="Past" {...a11yProps(2)} className={classes.tab} />
+        </Tabs>
+        <TabPanel value={tabValue} index={0} >
+          <InProgress userId={this.props.userId} />
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+          <Upcoming userId={this.props.userId} />
+        </TabPanel>
+        <TabPanel value={tabValue} index={2}>
+          <Past userId={this.props.userId} />
+        </TabPanel>
       </Container>
     );
   }
@@ -102,5 +67,28 @@ const mapStateToProps = (state) => ({
   user: state.user,
   booking: state.booking,
 });
+
+function a11yProps(index) {
+  return {
+    id: `listings-tab-${index}`,
+    "aria-controls": `listings-tabpanel-${index}`,
+  };
+}
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`listings-tabpanel-${index}`}
+      aria-labelledby={`listings-tab-${index}`}
+      {...other}
+    >
+      {value === index && children}
+    </div>
+  );
+}
 
 export default connect(mapStateToProps)(withStyles(styles)(MyBookings));

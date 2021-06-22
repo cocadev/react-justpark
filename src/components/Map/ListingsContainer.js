@@ -62,9 +62,30 @@ class ListingsContainer extends React.Component {
       } else {
         return price;
       }
+    } else if (days < 7) {
+      let price = days * chosenSpot.prices.daily_max;
+
+      return price;
+    } else if (days < 30) {
+      let weekly = Math.floor(days / 7.0);
+      console.log(`weekly: ${weekly}`);
+      let weeklyRemainder = days % 7;
+      console.log(`weeklyrem: ${weeklyRemainder}`);
+
+      let daily = Math.floor(weeklyRemainder);
+      console.log(`daily: ${daily}`);
+
+      let price =
+        weekly * chosenSpot.prices.weekly + daily * chosenSpot.prices.daily_max;
+
+      return price;
+    } else {
+      let price = (days / 30.0) * chosenSpot.prices.monthly;
+
+      return price;
     }
 
-    let monthly = Math.floor(days / 30);
+    /*let monthly = Math.floor(days / 30);
     console.log(`monthly: ${monthly}`);
     let monthlyRemainder = days % 30;
     console.log(`mrem: ${monthlyRemainder}`);
@@ -87,7 +108,7 @@ class ListingsContainer extends React.Component {
 
     console.log(`price: ${price}`);
 
-    return price;
+    return price;*/
   }
 
   componentDidMount() {
@@ -329,26 +350,9 @@ class ListingsContainer extends React.Component {
               style={{ width: 128, height: 128 }}
             />
           </Grid>
-          {this.state.hourlyPrice && (
-            <Grid item xs={12} style={{ textAlign: "center" }}>
-              ${Number.parseFloat(this.getPrice(listing)).toPrecision(3)}
-            </Grid>
-          )}
-          {this.state.weeklyPrice && (
-            <Grid item xs={12} style={{ textAlign: "center" }}>
-              Weekly: ${listing.prices.weekly}
-            </Grid>
-          )}
-          {this.state.monthlyPrice && (
-            <Grid item xs={12} style={{ textAlign: "center" }}>
-              Monthly: ${listing.prices.monthly}
-            </Grid>
-          )}
-          {this.state.dailyPrice && (
-            <Grid item xs={12} style={{ textAlign: "center" }}>
-              Daily: ${listing.prices.daily_max}
-            </Grid>
-          )}
+          <Grid item xs={12} style={{ textAlign: "center" }}>
+            ${Number.parseFloat(this.getPrice(listing)).toPrecision(4)}
+          </Grid>
 
           <Button
             variant="contained"

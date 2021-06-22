@@ -1,17 +1,18 @@
 // @noflow
 
 import React from "react";
-
-import Button from "@material-ui/core/Button";
+import {Button, Card} from "@material-ui/core";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   CardElement,
   Elements,
   useElements,
   useStripe,
+  // CardNumberElement,
 } from "@stripe/react-stripe-js";
-
+import withStyles from "@material-ui/core/styles/withStyles";
 import firebase from "firebase";
+import CustomText from "../components/Atom/CustomText";
 
 //import "../styles/common.css";
 
@@ -115,23 +116,25 @@ const CheckoutForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <CardElement
-        options={{
-          style: {
-            base: {
-              fontSize: "16px",
-              color: "#424770",
-              "::placeholder": {
-                color: "#aab7c4",
+      <div style={{ border: '1px solid #e6e9ed', padding: 12 }}>
+        <CardElement
+          options={{
+            style: {
+              base: {
+                fontSize: "16px",
+                color: "#424770",
+                "::placeholder": {
+                  color: "#aab7c4",
+                },
+              },
+              invalid: {
+                color: "#9e2146",
               },
             },
-            invalid: {
-              color: "#9e2146",
-            },
-          },
-        }}
-      />
-      <Button type="submit" disabled={!stripe}>
+          }}
+        />
+      </div>
+      <Button style={{ textTransform: 'none' }} type="submit" disabled={!stripe}>
         + Add Payment Method
       </Button>
     </form>
@@ -142,12 +145,26 @@ const CheckoutForm = () => {
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe("pk_test_fBjUAdEgBIK3XRZQ3mOGsxAd00wMisVYso");
 
-const App = () => {
+const App = (props) => {
+  const { classes } = props;
   return (
     <Elements stripe={stripePromise}>
-      <CheckoutForm />
+      <Card className={classes.card}>
+        <CustomText title="Payment methods" type="title"/>
+        <br/>
+        <CustomText title="Below is a list of all the payment methods you have registered with Prked. You can also add new payment methods or delete old ones from this page." type="description"/>
+        <br/>
+        <CheckoutForm />
+      </Card>
     </Elements>
   );
 };
 
-export default App;
+const useStyles = () => ({
+  card: {
+    marginTop: 30,
+    padding: 27
+  },
+});
+
+export default withStyles(useStyles)(App);

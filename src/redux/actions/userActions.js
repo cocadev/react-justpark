@@ -15,7 +15,7 @@ export const setUserData = (userData) => (dispatch) => {
 export const saveUserData = (userData, history) => (dispatch) => {
   dispatch({ type: SAVE_USER });
 
-  if (userData.created === userData.lastSignin) {
+  if (userData.created == userData.lastSignin) {
     db.ref("Users/" + userData.uid).set({
       firstName: userData.firstName,
       lastName: userData.lastName,

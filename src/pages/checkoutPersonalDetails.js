@@ -6,7 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Button from "@material-ui/core/Button";
-
+import withStyles from "@material-ui/core/styles/withStyles";
 import firebase from "firebase";
 
 //Redux
@@ -14,6 +14,37 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { setVehicleData } from "../redux/actions/dataActions";
+import CustomText from "../components/Atom/CustomText";
+
+const useStyles = () => ({
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20
+  },
+  btn: {
+    width: 120,
+    height: 40,
+    marginLeft: 20
+  },
+  detail: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 10,
+    cursor: 'pointer',
+    '& div': {
+      borderRadius: 4,
+      borderRadius: 4,
+      border: '1px solid #dee2e8',
+      background: '#f8f9fb',
+      padding: 22,
+      width: '100%',
+      padding: 18,
+      marginRight: 12
+    }
+  }
+});
 
 var userId;
 
@@ -109,7 +140,7 @@ class checkoutPersonalDetails extends Component {
       .orderByKey();
     query.on("value", function (snapshot) {
       var plates = [];
-      var num = [];
+      // var num = [];
       snapshot.forEach(function (childSnapshot) {
         // gets vehicle unique id
         var key = childSnapshot.key;
@@ -187,36 +218,35 @@ class checkoutPersonalDetails extends Component {
 
   render() {
     console.log(this.state.vehicle);
+    const { classes } = this.props;
+
     if (this.state.vehicle == null) {
       console.log("it is empty");
     }
     return (
-      <Card>
+      <Card style={{padding: 20}}>
         <CardContent>
-          <Typography variant="h5">1. Personal Details</Typography>
-          <br />
+          <CustomText title="1. Personal Details" type='title' />
+          <br /><br />
 
-          <Typography variant="h6">{this.props.user.firstName}</Typography>
-          <br />
-          <Typography variant="h9">{this.props.user.email}</Typography>
+          <CustomText title={this.props.user.firstName} type='formTitle' />
+
+          <CustomText title={this.props.user.email} type='description' />
+
           <br />
 
           {!(this.state.shouldAddNew == false) ? (
             <div>
-              <Button onClick={() => this.clickEdit()}>edit</Button>
+              {/* <Button onClick={() => this.clickEdit()}>edit</Button> */}
               {this.state.editDetails ? (
                 <Container>
-                  <Typography variant="h9">Select Vehicle</Typography>
-
+                  <CustomText title="Select Vehicle" type="formTitle"/>
                   <List>
                     {this.state.vehiclePlates.map((item) => {
                       return (
-                        <ListItem>
-                          {item[1]}
-                          <Button onClick={() => this.selectVehicle(item)}>
-                            Select
-                          </Button>
-                        </ListItem>
+                        <div className={classes.detail} onClick={() => this.selectVehicle(item)}>
+                          <div>{item[1]}</div>
+                        </div>
                       );
                     })}
                   </List>
@@ -226,24 +256,27 @@ class checkoutPersonalDetails extends Component {
                   </Button>
                 </Container>
               ) : (
-                <Typography variant="h9">
-                  Current Vehicle - {this.state.vehicle}
-                </Typography>
+                <div onClick={() => this.clickEdit()} className={classes.detail}>
+                  <div>{this.state.vehicle}</div>
+                </div>
               )}
             </div>
           ) : (
-            <form>
-              <TextField
-                error={this.state.textError}
-                //className={classes.field}
-                id="plateNumber"
-                label="Enter vehicle number plate"
-                color="primary"
-                fullWidth
-              />
-              <Button
-                //className={classes.btn}
+            <div className={classes.row}>
+              <form>
+                <TextField
+                  error={this.state.textError}
+                  id="plateNumber"
+                  label="Enter vehicle number plate"
+                  color="primary"
+                  fullWidth
+                  size='small'
+                  variant="outlined"
+                />
+              </form>
 
+              <Button
+                className={classes.btn}
                 onClick={() =>
                   this.writeUserData(
                     userId,
@@ -251,10 +284,11 @@ class checkoutPersonalDetails extends Component {
                   )
                 }
                 color="primary"
+                variant="contained"
               >
-                + Add another vehicle
+                Add
               </Button>
-            </form>
+            </div>
           )}
         </CardContent>
       </Card>
@@ -280,4 +314,4 @@ checkoutPersonalDetails.propTypes = {
 export default connect(
   mapStateToProps,
   mapActionsToProps
-)(checkoutPersonalDetails);
+)(withStyles(useStyles)(checkoutPersonalDetails));

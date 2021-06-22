@@ -114,7 +114,6 @@ class CheckoutPaymentButton extends Component {
                   .functions()
                   .httpsCallable("chargeCustomer");
 
-                // var money = "$";
                 //var priceString = data.price.toString();
                 //var priceParam = money.concat(priceString);
                 //console.log(priceParam);
@@ -194,8 +193,8 @@ class CheckoutPaymentButton extends Component {
       );
     }
     return (
-      <div>
-        <Button variant="contained" onClick={this.handlePayAction}>
+      <div style={{marginTop: 12}}>
+        <Button variant="contained" color='primary' fullWidth onClick={this.handlePayAction}>
           {" "}
           Confirm and Pay
         </Button>

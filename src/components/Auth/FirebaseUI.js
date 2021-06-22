@@ -2,6 +2,7 @@
 import React from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "../../util/firebase";
+import { Container, withStyles } from "@material-ui/core";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -32,6 +33,27 @@ const uiConfig = {
     //},
   },
 };
+
+const styles = () => ({
+  root: {
+    background: '#f5f5f5',
+    padding: 30,
+    marginTop: 30,
+    borderRadius: 4,
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    '& p': {
+      color: '#0a0a0a',
+      fontSize: 25,
+      lineHeight: 1.2,
+      fontWeight: '300',
+      flex: 1
+    }
+  }
+});
 
 class FirebaseUI extends React.Component {
   constructor() {
@@ -82,13 +104,25 @@ class FirebaseUI extends React.Component {
     this.unregisterAuthObserver();
   }
   render() {
+    const { classes } = this.props;
+
     return (
-      <div>
-        <StyledFirebaseAuth
-          uiConfig={uiConfig}
-          firebaseAuth={firebase.auth()}
-        />
-      </div>
+      <Container className={classes.root}>
+        <div className={classes.container}>
+          <p>You need to sign in or create <br/>an account to continue</p>
+          <div style={{flex: 1}}>
+            <StyledFirebaseAuth
+            uiConfig={uiConfig}
+            firebaseAuth={firebase.auth()}
+          />
+          </div>
+
+        </div>
+      
+        <p>
+        By continuing with this purchasing process you indicate that you have read and agree with our Privacy Policy and Terms & Conditions.
+        </p>
+      </Container>
     );
   }
 }
@@ -108,4 +142,4 @@ const mapStateToProps = (state) => ({
   data: state.data,
 });
 
-export default connect(mapStateToProps, mapActionsToProps)(FirebaseUI);
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(FirebaseUI));

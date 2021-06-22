@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
-
-//Redux
 import { connect } from "react-redux";
-
-//MUI
-import { Grid, Container, Typography, Button, withStyles } from "@material-ui/core";
+import { Grid, Container, Button, withStyles } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import CustomText from "../../Atom/CustomText";
 
 var userId;
 
@@ -38,6 +35,7 @@ const styles = (theme) => ({
     margin: "30px 0 20px",
   },
   addButton: {
+    color: '#999',
     padding: "20px 0",
     border: "1px dashed #cdd3db",
     borderRadius: "0",
@@ -111,22 +109,20 @@ class PaymentMethods extends Component {
     const { classes } = this.props;
 
     return (
-      <Container>
-        <Typography className={classes.title} variant="h5">
-          Payment Methods
-        </Typography>
+      <Container style={{margin: '20px 0 15px'}}>
+        <CustomText title="Payment Methods" type="title" />
 
         <Grid container spacing={2} style={{ marginTop: "20px" }}>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Typography variant="h7" color="textSecondary" lg={5}>
+            <CustomText type="description" title=
               {this.state.isMethod
                 ? this.state.defaultBrand +
-                  " - " +
-                  this.state.defaultLast4 +
-                  " " +
-                  this.state.defaultExpDate
+                " - " +
+                this.state.defaultLast4 +
+                " " +
+                this.state.defaultExpDate
                 : "You have no payment methods added. Click below to add your first payment method."}
-            </Typography>
+            />
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <Button

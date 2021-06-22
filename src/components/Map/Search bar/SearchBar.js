@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import RoomIcon from '@material-ui/icons/Room';
-
+import GpxFixedIcon from "@material-ui/icons/GpsFixed";
 import theme from "./SearchBar.module.css";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
@@ -88,6 +88,7 @@ class SearchBar extends React.Component {
 
   render() {
     const { value, suggestions } = this.state;
+    const { search } = this.props;
 
     const inputProps = {
       placeholder: this.props.value || "Where do you want to park?",
@@ -105,9 +106,9 @@ class SearchBar extends React.Component {
     }*/
 
     return (
-      <div style={{ position: "relative" }}>
-        <div style={{ border: '1px solid #c4c4c4', width: '100%', height: 54, top: 12, borderRadius: 5, position: 'absolute'}} />
-        <div style={{ marginLeft: 40}} >
+      <div style={{ position: "relative", display: 'flex', flex: 1 }}>
+        {search && <div style={{ border: '1px solid #c4c4c4', width: '100%', height: 54, top: 12, borderRadius: 5, position: 'absolute'}} />}
+        <div style={{ marginLeft: search ? 40 : 0, width: '100%'}} >
           <Autosuggest
             suggestions={suggestions}
             onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -120,13 +121,15 @@ class SearchBar extends React.Component {
           />
         </div>
         
-        <img style={{
+        {search && <img style={{
           position: 'absolute',
           left: 20,
           top: 32
-        }} src={'https://static.justpark.com/web/assets/search_icon_green.3b6e44d0736e0d4aa89e66436244eaa8.svg'} />
-        <div className={theme.label} style={{ fontSize: 14, textTransform: 'inherit', marginTop: -3, background: '#fff', paddingLeft: 6, paddingRight: 6}}>Parking At</div>
-        {/* <GpxFixedIcon color="primary" className={theme.location} /> */}
+        }} src={'https://static.justpark.com/web/assets/search_icon_green.3b6e44d0736e0d4aa89e66436244eaa8.svg'} />}
+        {search && <div className={theme.label} style={{ fontSize: 14, textTransform: 'inherit', marginTop: -3, background: '#fff', paddingLeft: 6, paddingRight: 6}}>Parking At</div>}
+        {!search && <label className={theme.label}>Parking At</label>}
+
+        {!search && <GpxFixedIcon color="primary" className={theme.location} />}
       </div>
     );
   }

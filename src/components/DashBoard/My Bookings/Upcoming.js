@@ -9,6 +9,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
 import firebase from "firebase";
+import BookingNotFound from "./BookingNotFound";
 
 const styles = (theme) => ({
   root: {
@@ -53,7 +54,7 @@ class Upcoming extends Component {
 
     return d;
   }
-  async getBookings() {
+  async getBookings(n) {
     //this function retrieves all the vehicles within the users vehicle node
     let time = this;
 
@@ -129,10 +130,11 @@ class Upcoming extends Component {
 
     console.log("hahahhahah");
     console.log(this.state.bookings);
+    const { bookings } = this.state;
 
     return (
       <List>
-        {this.state.bookings.map((item) => {
+        {bookings.map((item) => {
           return (
             <ListItem>
               <BookingItem
@@ -146,6 +148,10 @@ class Upcoming extends Component {
             </ListItem>
           );
         })}
+        {
+          bookings.length === 0 &&
+          <BookingNotFound title="Upcoming"/>
+        }
       </List>
     );
   }

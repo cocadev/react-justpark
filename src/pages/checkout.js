@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import BookingSummary from "../components/Checkout/BookingSummary";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+import { Grid, Paper, Container, Typography, Card } from "@material-ui/core/";
 
 import CheckoutPersonalDetails from "./checkoutPersonalDetails";
 import CheckoutPaymentInfo from "./checkoutPaymentInfo";
 import CheckoutPaymentButton from "../components/Checkout/CheckoutPaymentButton";
 import FirebaseUI from "../components/Auth/FirebaseUI";
-
-import { Typography } from "@material-ui/core";
 import firebase from "firebase";
 
 //Redux
@@ -16,6 +13,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { setUserData } from "../redux/actions/userActions";
+import CustomText from "../components/Atom/CustomText";
 
 firebase.auth().onAuthStateChanged(function (user) {
   //window.location.reload();
@@ -79,35 +77,27 @@ class checkout extends Component {
     const isAuthenticated = this.props.user.authenticated;
     this.mapUserDetailsToState(this.props.user);
     return (
-      <div>
-        <Grid container spacing={5} alignContent="center">
+      <Container maxWidth="lg" style={{ marginTop: 40 }}>
+        <Grid container spacing={3} alignContent="center" st>
           <Grid item sm={5}>
             <BookingSummary />
           </Grid>
-          <Grid item sm={5}>
-            <Grid container>
-              <Paper>
-                <Grid item sm={12}>
-                  {isAuthenticated ? (
-                    <CheckoutPersonalDetails />
-                  ) : (
-                    <FirebaseUI />
-                  )}
-                </Grid>
-                <Grid item sm={12}>
-                  <Typography>2. Payment Information</Typography>
-                </Grid>
-                <Grid item sm={12}>
-                  <CheckoutPaymentInfo key={this.state.firstName} />
-                </Grid>
-                <Grid item sm={12}>
-                  <CheckoutPaymentButton />
-                </Grid>
-              </Paper>
-            </Grid>
+          <Grid item sm={7}>
+            {isAuthenticated ? (
+              <CheckoutPersonalDetails />
+            ) : (
+              <FirebaseUI />
+            )}
+
+            <Card style={{ marginTop: 25, marginBottom: 20, padding: '45px 35px' }}>
+              <CustomText title="2. Payment Information" type="title" />
+              <CheckoutPaymentInfo key={this.state.firstName} />
+            </Card>
+
+            <CheckoutPaymentButton />
           </Grid>
         </Grid>
-      </div>
+      </Container>
     );
   }
 }

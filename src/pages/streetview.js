@@ -3,7 +3,6 @@ import React, { Component } from "react";
 //Redux
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
 import ReactStreetview from "react-streetview";
 
 const API_KEY = "AIzaSyBE9_zbuGypHWKDfhcdrPyzbXU6Ej4-u6M";
