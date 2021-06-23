@@ -2,7 +2,7 @@ import React from "react";
 import Autosuggest from "react-autosuggest";
 import axios from "axios";
 
-import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import { ListItem, ListItemIcon, ListItemText, useMediaQuery } from "@material-ui/core";
 import RoomIcon from '@material-ui/icons/Room';
 import GpxFixedIcon from "@material-ui/icons/GpsFixed";
 import theme from "./SearchBar.module.css";
@@ -95,15 +95,6 @@ class SearchBar extends React.Component {
       value,
       onChange: this.onChange,
     };
-
-    /* if (this.props.value !== "") {
-      inputProps = {
-        placeholder: "Search...",
-        value: this.props.value,
-        onChange: this.onChange,
-        style,
-      };
-    }*/
 
     return (
       <div style={{ position: "relative", display: 'flex', flex: 1 }}>

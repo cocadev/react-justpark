@@ -29,6 +29,18 @@ const styles = (theme) => ({
     marginBottom: 2,
     width: 120
   },
+  mobile: {
+    display: 'block',
+    [theme.breakpoints.down(600)]: {
+      display: 'none'
+    }
+  },
+  desktop: {
+    display: 'block',
+    [theme.breakpoints.up(600)]: {
+      display: 'none'
+    },
+  }
 });
 
 class mapPage extends Component {
@@ -214,13 +226,13 @@ class mapPage extends Component {
     return (
       <Paper style={{ padding: "0 10px" }}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <SearchBar
-              value={this.state.locationSelected.address}
-              parentCallback={(location) => {
-                this.userLocationInputCallback(location);
-              }}
-              search={true}
-            />
+          <SearchBar
+            value={this.state.locationSelected.address}
+            parentCallback={(location) => {
+              this.userLocationInputCallback(location);
+            }}
+            search={true}
+          />
 
           <form noValidate>
             <div style={{ display: 'flex', flexDirection: 'row', marginTop: 12, marginLeft: 12, marginRight: 12 }}>
@@ -269,19 +281,60 @@ class mapPage extends Component {
             onClick={this.handleClick}
           >
             Search
-            </Button>
+          </Button>
         </div>
       </Paper>
     );
   }
 
+  displayHumanReadableDate(date) {
+    let hours = date.getHours();
+    let pm = "AM";
+    if (hours >= 12) {
+      pm = "PM";
+      hours = hours - 12;
+    }
+    return `${date.getMonth() + 1
+      }/${date.getDate()}/${date.getFullYear()}  ${hours}:${date.getMinutes()} ${pm}`;
+  }
+
+
   // the render after user has initially selected a location
   mainRender() {
     console.log(this.state.locationSelected); // 55 test null
+    const { classes } = this.props;
 
     return (
       <>
-        {this.renderDateTimePicker()}
+        <div className={classes.mobile}> {this.renderDateTimePicker()}</div>
+        <div className={classes.desktop}>
+          <SearchBar
+            value={this.state.locationSelected.address}
+            parentCallback={(location) => {
+              this.userLocationInputCallback(location);
+            }}
+          />
+
+          <div style={{ width: '100%', height: 1, backgroundColor: '#d0d0d0', marginTop: -7 }}/>
+
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', fontSize: 11, justifyContent: 'space-between', padding: '1px 12px 5px', marginTop: 7, marginBottom: -10 }}>
+            <div>
+              <span style={{ fontWeight: '600', color: '#0f7277' }}>Arriving on</span> <br />
+              <span style={{ fontSize: 14, fontWeight: '600', lineHeight: 1.7 }}>
+                {this.displayHumanReadableDate(this.state.startDate)}
+              </span>
+            </div>
+            <img src="https://static.justpark.com/web/assets/arrow_right_short.dc2fef277bd6adc401b9007b9765d345.svg" />
+
+            <div style={{ display: 'flex', alignItems: 'flex-end', flexDirection: 'column' }}>
+              <span style={{ fontWeight: '600', color: '#0f7277' }}>Leaving on</span>
+              <span style={{ fontSize: 14, fontWeight: '600', lineHeight: 1.7 }}>
+                {this.displayHumanReadableDate(this.state.endDate)}
+              </span>
+            </div>
+          </div>
+        </div>
+
         <ListingExplorer
           ref={this.listingExplorerComponent}
           chosenLocation={this.state.locationSelected}
