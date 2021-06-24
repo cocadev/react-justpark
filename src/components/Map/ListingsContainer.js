@@ -205,13 +205,14 @@ class ListingsContainer extends React.Component {
     }
 
     const { imageURL } = this.state;
-    const { classes } = this.props;
+    const { classes, mobile } = this.props;
 
     return (
       <Paper
         key={listing.spotId}
         id={`spotListing${listing.spotId}`}
         className={classes.listingItem}
+        style={{maxWidth: 400, minWidth: 400}}
         onClick={() => {
           this.activateConfirmationPrompt(
             listing.spotId,
@@ -234,7 +235,6 @@ class ListingsContainer extends React.Component {
               style={{
                 padding: "16px 12px",
                 fontSize: "12px",
-                height: "calc(100% - 32px)",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
@@ -259,6 +259,7 @@ class ListingsContainer extends React.Component {
                 <Rating value={listing.rating || 5} size="small" readOnly />
                 <span>(45)</span>
               </div>
+              <br/><br/>
               <div style={{ display: "flex", alignItems: "flex-end" }}>
                 <div
                   style={{
@@ -280,7 +281,7 @@ class ListingsContainer extends React.Component {
                       fontWeight: 400,
                       color: "#999",
                       margin: "0 0 0 2px",
-                    }}
+                    }}l
                   >
                     total price
                   </p>
@@ -382,18 +383,12 @@ class ListingsContainer extends React.Component {
     }
 
     return (
-      <div
-        id="listingsContainer"
-        style={{
-          flexWrap: "wrap-reverse",
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignContent: "space-around",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      >
-        {!this.state.showConfirmationPrompt && renderedListings}
+      <div id="listingsContainer">
+        {!this.state.showConfirmationPrompt &&
+          <div style={{display: 'flex', flexDirection: 'row'}}>
+            {renderedListings}
+          </div>
+        }
         {this.state.showConfirmationPrompt && (
           <ConfirmationPrompt
             userId="userId"

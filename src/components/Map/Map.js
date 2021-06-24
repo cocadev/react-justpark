@@ -4,7 +4,7 @@ import MapPin from "./MapPin";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-function Map({ chosenLocation, listings, timeDelta }) {
+function Map({ chosenLocation, listings, timeDelta, childElement }) {
   const zoomLevel = 10;
   console.log(`chosen location`);
   console.log(chosenLocation);
@@ -112,8 +112,10 @@ function Map({ chosenLocation, listings, timeDelta }) {
             height: "calc(100vh - 150px)",
           }}
         >
+
           {renderListingPins(listings)}
         </GoogleMapReact>
+        {childElement}
       </div>
     );
   }

@@ -19,8 +19,19 @@ const styles = (theme) => ({
       display: 'block'
     }
   },
+  mobile: {
+    position: 'absolute',
+    bottom: 10,
+    width: 480,
+    overflowX: 'scroll',
+    overflowY: 'hidden',
+    display: 'none',
+    [theme.breakpoints.down(860)]: {
+      display: 'block'
+    }
+  },
   listingsPaper: {
-    top: 150,
+    top: 152,
     width: theme.layout.listingBar.width,
     background: "#efefef",
     boxShadow: "0 0 2px 1px rgb(0 0 0 / 20%)",
@@ -176,7 +187,7 @@ class ListingExplorer extends React.Component {
         <Drawer
           className={classes.listings}
           variant="persistent"
-          anchor="left"
+          anchor="bottom"
           open
           classes={{
             paper: classes.listingsPaper,
@@ -212,19 +223,33 @@ class ListingExplorer extends React.Component {
         </Drawer>
 
         <div className={classes.listingsMobile}>
-          <div style={{display: 'flex', flexDirection: 'row', position: 'absolute', left: 0, bottom: 110}}>
-            {this.state.listings.map((item, index)=> <div>
-              Hey {index}
+          <div style={{ display: 'flex', flexDirection: 'row', position: 'absolute', left: 0, bottom: 110 }}>
+            {this.state.listings.map((item, index) => <div>
+              {/* Hey {index} */}
             </div>)}
           </div>
         </div>
+
+
 
         <div className={classes.mapArea}>
           <Map
             chosenLocation={this.props.chosenLocation}
             listings={this.state.listings}
             timeDelta={this.props.timeDelta}
-          ></Map>
+            childElement={
+              <div className={classes.mobile}>
+                <ListingsContainer
+                  listings={this.state.listings}
+                  timeDelta={this.props.timeDelta}
+                  startDate={this.props.startDate}
+                  endDate={this.props.endDate}
+                  chosenLocation={this.props.chosenLocation}
+                  mobile={true}
+                />
+              </div>
+            }
+          />
         </div>
       </div>
     );

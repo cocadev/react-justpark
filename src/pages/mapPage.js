@@ -31,13 +31,13 @@ const styles = (theme) => ({
   },
   mobile: {
     display: 'block',
-    [theme.breakpoints.down(600)]: {
+    [theme.breakpoints.down(860)]: {
       display: 'none'
     }
   },
   desktop: {
     display: 'block',
-    [theme.breakpoints.up(600)]: {
+    [theme.breakpoints.up(860)]: {
       display: 'none'
     },
   }
@@ -178,23 +178,23 @@ class mapPage extends Component {
           />
         </Grid>
         <Grid item xs={6}>
-          <Paper>
-            <TextField
-              id="Start"
-              name="startDate"
-              label="Arriving On"
-              type="datetime-local"
-              fullWidth={true}
-              defaultValue={currentDate}
-              onChange={this.userDateSelectionCallback}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              InputProps={{
-                style: { fontWeight: "700" },
-              }}
-            />
-          </Paper>
+          {/* <Paper> */}
+          <TextField
+            id="Start"
+            name="startDate"
+            label="Arriving On"
+            type="datetime-local"
+            fullWidth={true}
+            defaultValue={currentDate}
+            onChange={this.userDateSelectionCallback}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              style: { fontWeight: "700" },
+            }}
+          />
+          {/* </Paper> */}
         </Grid>
         <Grid item xs={6}>
           <Paper>
@@ -315,7 +315,7 @@ class mapPage extends Component {
             }}
           />
 
-          <div style={{ width: '100%', height: 1, backgroundColor: '#d0d0d0', marginTop: -7 }}/>
+          <div style={{ width: '100%', height: 1, backgroundColor: '#d0d0d0', marginTop: -7 }} />
 
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', fontSize: 11, justifyContent: 'space-between', padding: '1px 12px 5px', marginTop: 7, marginBottom: -10 }}>
             <div>
