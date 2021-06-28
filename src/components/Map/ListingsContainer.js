@@ -212,7 +212,7 @@ class ListingsContainer extends React.Component {
         key={listing.spotId}
         id={`spotListing${listing.spotId}`}
         className={classes.listingItem}
-        style={{maxWidth: 400, minWidth: 400}}
+        style={{maxWidth: 380, minWidth: 380}}
         onClick={() => {
           this.activateConfirmationPrompt(
             listing.spotId,
@@ -375,6 +375,9 @@ class ListingsContainer extends React.Component {
   }
 
   render() {
+
+    const { mobile } = this.props;
+
     let renderedListings = [];
     if (this.state.listings) {
       for (const listing of this.props.listings) {
@@ -385,7 +388,7 @@ class ListingsContainer extends React.Component {
     return (
       <div id="listingsContainer">
         {!this.state.showConfirmationPrompt &&
-          <div style={{display: 'flex', flexDirection: 'row'}}>
+          <div style={{display: 'flex', flexDirection: mobile ? 'row' : 'column'}}>
             {renderedListings}
           </div>
         }
@@ -399,6 +402,7 @@ class ListingsContainer extends React.Component {
             spot={this.state.spot}
             startDate={this.props.startDate}
             endDate={this.props.endDate}
+            mobile={mobile}
           ></ConfirmationPrompt>
         )}
       </div>

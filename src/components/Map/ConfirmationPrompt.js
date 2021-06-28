@@ -31,9 +31,9 @@ const styles = () => ({
   },
   bgImg: {
     height: 130,
-    width: '98%',
+    width: 160,
     borderRadius: 4,
-    marginRight: 22,
+    marginRight: 12,
     marginTop: 8
   },
 });
@@ -73,7 +73,7 @@ class ConfirmationPrompt extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, mobile } = this.props;
     const { tabValue, more } = this.state;
     const handleTabsChange = (event, newValue) => {
       this.setState({ tabValue: newValue });
@@ -84,14 +84,15 @@ class ConfirmationPrompt extends React.Component {
         style={{
           backgroundColor: "#fff",
           borderRadius: 4,
-          margin: 10,
+          margin: mobile ? 0 : 10,
           padding: 12,
-          marginTop: -40,
+          marginTop: mobile ? 0 : -40,
+          height: mobile ? 820 : '100%',
         }}
       >
         <Grid container>
           <Grid item xs={12}>
-            <Grid container style={{ padding: "1%" }}>
+            <Grid container style={{ }}>
               <Grid item xs={5}></Grid>
               {/*<Grid item xs={7}>
                 {this.state.spot.street_number} {this.state.spot.street_name}
@@ -118,7 +119,7 @@ class ConfirmationPrompt extends React.Component {
                 <img src="https://static.justpark.com/web/assets/star_gradient.75024a73aacaf3b77173356d2786e03b.svg" />
                 <img src="https://static.justpark.com/web/assets/star_gradient.75024a73aacaf3b77173356d2786e03b.svg" />
                 <span>(1,818)</span>
-                <br /><br />
+                <br />
               </Grid>
             </Grid>
 
@@ -126,7 +127,7 @@ class ConfirmationPrompt extends React.Component {
               <div>
                 Parking from <br />
                 <span style={{ fontSize: 14, fontWeight: '600', lineHeight: 1.7 }}>
-                {this.displayHumanReadableDate(this.state.startDate)}
+                  {this.displayHumanReadableDate(this.state.startDate)}
                 </span>
               </div>
               <img src="https://static.justpark.com/web/assets/arrow_right_short.dc2fef277bd6adc401b9007b9765d345.svg" />
@@ -134,7 +135,7 @@ class ConfirmationPrompt extends React.Component {
               <div>
                 Parking until< br />
                 <span style={{ fontSize: 14, fontWeight: '600', lineHeight: 1.7 }}>
-                {this.displayHumanReadableDate(this.state.endDate)}
+                  {this.displayHumanReadableDate(this.state.endDate)}
                 </span>
               </div>
             </div>
@@ -143,7 +144,7 @@ class ConfirmationPrompt extends React.Component {
             <SpotTripInfo
               price={Number.parseFloat(this.state.price).toPrecision(4)}
             ></SpotTripInfo>
-            <br />
+            
           </Grid>
 
           <Tabs
@@ -197,11 +198,11 @@ class ConfirmationPrompt extends React.Component {
                   <img src={!more ? 'https://static.justpark.com/web/assets/arrow_down.8cc77bd81836246bc46bbef4768c59cc.svg' : 'https://static.justpark.com/web/assets/arrow_up.ef0fbbe4b4d9d62b38e4d2455de28baa.svg'} />
                 </div>
 
-                {more && <div><br/>
-                  Entry height restriction is 2m, internal height in some places as low as (1.4m).<br/><br/>
+                {more && <div><br />
+                  Entry height restriction is 2m, internal height in some places as low as (1.4m).<br /><br />
 
-                  This space is not recommended for larger cars and vehicles.The car park is on level ground, with no steps. <br/>Please ensure to input your vehicle registration at time of booking or you may be liable to a parking charge notice.<br/><br/>
-                  Monday - Saturday<br/>
+                  This space is not recommended for larger cars and vehicles.The car park is on level ground, with no steps. <br />Please ensure to input your vehicle registration at time of booking or you may be liable to a parking charge notice.<br /><br />
+                  Monday - Saturday<br />
                   06:00 - 23:59<br />
                   Up to 1 hour - £4.20<br />
                   1 hour to 2 hours - £6.40<br />
@@ -216,7 +217,7 @@ class ConfirmationPrompt extends React.Component {
                   1 hour to 2 hours - £5.40<br />
                   2 hours to 3 hours - £7.10<br />
                   3 hours to 4 hours - £8.10<br />
-                  Over 4 hours - £10.50<br /><br/>
+                  Over 4 hours - £10.50<br /><br />
 
                   Monday - Saturday<br />
                   06:00 - 23:59<br />
@@ -228,11 +229,11 @@ class ConfirmationPrompt extends React.Component {
                   Weekly - £99.00<br />
 
                   Sunday - Sunday <br /><br />
-                  07:00 - 23:59<br/>
-                  Up to 1 hour - £3.70<br/>
-                  1 hour to 2 hours - £5.40<br/>
-                  2 hours to 3 hours - £7.10<br/>
-                  3 hours to 4 hours - £8.10<br/>
+                  07:00 - 23:59<br />
+                  Up to 1 hour - £3.70<br />
+                  1 hour to 2 hours - £5.40<br />
+                  2 hours to 3 hours - £7.10<br />
+                  3 hours to 4 hours - £8.10<br />
                   Over 4 hours - £10.50 <br />
                 </div>}
                 <br />
@@ -244,8 +245,8 @@ class ConfirmationPrompt extends React.Component {
               </div>
 
               <Grid container className={classes.row}>
-                <Grid item md={6} xs={12}><img className={classes.bgImg} src={'https://uploads.justpark.com/cdn/media/uploaded/listing-photos/5ab0dea7a37fe-normal.jpg'} /></Grid>
-                <Grid item md={6} xs={12}><img className={classes.bgImg} src={'https://uploads.justpark.com/cdn/media/uploaded/listing-photos/5ab0deaabae00-normal.jpg'} /></Grid>
+                <img className={classes.bgImg} src={'https://uploads.justpark.com/cdn/media/uploaded/listing-photos/5ab0dea7a37fe-normal.jpg'} />
+                <img className={classes.bgImg} style={{marginRight: 0}} src={'https://uploads.justpark.com/cdn/media/uploaded/listing-photos/5ab0deaabae00-normal.jpg'} />
               </Grid>
 
               <br />

@@ -307,33 +307,6 @@ class mapPage extends Component {
     return (
       <>
         <div className={classes.mobile}> {this.renderDateTimePicker()}</div>
-        <div className={classes.desktop}>
-          <SearchBar
-            value={this.state.locationSelected.address}
-            parentCallback={(location) => {
-              this.userLocationInputCallback(location);
-            }}
-          />
-
-          <div style={{ width: '100%', height: 1, backgroundColor: '#d0d0d0', marginTop: -7 }} />
-
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', fontSize: 11, justifyContent: 'space-between', padding: '1px 12px 5px', marginTop: 7, marginBottom: -10 }}>
-            <div>
-              <span style={{ fontWeight: '600', color: '#0f7277' }}>Arriving on</span> <br />
-              <span style={{ fontSize: 14, fontWeight: '600', lineHeight: 1.7 }}>
-                {this.displayHumanReadableDate(this.state.startDate)}
-              </span>
-            </div>
-            <img src="https://static.justpark.com/web/assets/arrow_right_short.dc2fef277bd6adc401b9007b9765d345.svg" />
-
-            <div style={{ display: 'flex', alignItems: 'flex-end', flexDirection: 'column' }}>
-              <span style={{ fontWeight: '600', color: '#0f7277' }}>Leaving on</span>
-              <span style={{ fontSize: 14, fontWeight: '600', lineHeight: 1.7 }}>
-                {this.displayHumanReadableDate(this.state.endDate)}
-              </span>
-            </div>
-          </div>
-        </div>
 
         <ListingExplorer
           ref={this.listingExplorerComponent}
@@ -341,6 +314,35 @@ class mapPage extends Component {
           timeDelta={this.state.endDate - this.state.startDate}
           startDate={this.state.startDate}
           endDate={this.state.endDate}
+          mobileSearch={
+            <div className={classes.desktop} style={{marginRight: 10}}>
+              <SearchBar
+                value={this.state.locationSelected.address}
+                parentCallback={(location) => {
+                  this.userLocationInputCallback(location);
+                }}
+              />
+
+              <div style={{ width: '100%', height: 1, backgroundColor: '#d0d0d0', marginTop: -7 }} />
+
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', fontSize: 11, justifyContent: 'space-between', padding: '1px 12px 5px', marginTop: 7, marginBottom: -10 }}>
+                <div>
+                  <span style={{ fontWeight: '600', color: '#0f7277' }}>Arriving on</span> <br />
+                  <span style={{ fontSize: 14, fontWeight: '600', lineHeight: 1.7 }}>
+                    {this.displayHumanReadableDate(this.state.startDate)}
+                  </span>
+                </div>
+                <img src="https://static.justpark.com/web/assets/arrow_right_short.dc2fef277bd6adc401b9007b9765d345.svg" />
+
+                <div style={{ display: 'flex', alignItems: 'flex-end', flexDirection: 'column' }}>
+                  <span style={{ fontWeight: '600', color: '#0f7277' }}>Leaving on</span>
+                  <span style={{ fontSize: 14, fontWeight: '600', lineHeight: 1.7 }}>
+                    {this.displayHumanReadableDate(this.state.endDate)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          }
         ></ListingExplorer>
       </>
     );

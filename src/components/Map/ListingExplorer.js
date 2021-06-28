@@ -19,10 +19,20 @@ const styles = (theme) => ({
       display: 'block'
     }
   },
-  mobile: {
+  mobile1: {
+    position: 'absolute',
+    top: 90,
+    left: 10,
+    background: "#fff",
+    paddingBottom: 10,
+    display: 'none',
+    [theme.breakpoints.down(860)]: {
+      display: 'block'
+    }
+  },
+  mobile2: {
     position: 'absolute',
     bottom: 10,
-    width: 480,
     overflowX: 'scroll',
     overflowY: 'hidden',
     display: 'none',
@@ -66,7 +76,9 @@ class ListingExplorer extends React.Component {
       startDate: props.startDate,
       endDate: props.endDate,
       tabValue: 0,
+      width: 0
     };
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
   changeTime = (start, end) => {
@@ -167,7 +179,18 @@ class ListingExplorer extends React.Component {
     // this is a react thing that runs before component is rendered
     // that way it pulls the data first and then renders
     this.getListings(0);
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+  
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth });
+  }
+
 
   render() {
     console.log("1");
@@ -183,7 +206,7 @@ class ListingExplorer extends React.Component {
     };
 
     return (
-      <div style={{ marginBlockStart: "10px", height: "100%" }}>
+      <div style={{ height: "100%"}}>
         <Drawer
           className={classes.listings}
           variant="persistent"
@@ -229,16 +252,17 @@ class ListingExplorer extends React.Component {
             </div>)}
           </div>
         </div>
-
-
-
+            
         <div className={classes.mapArea}>
           <Map
             chosenLocation={this.props.chosenLocation}
             listings={this.state.listings}
             timeDelta={this.props.timeDelta}
-            childElement={
-              <div className={classes.mobile}>
+            childElement={<div >
+              <div className={classes.mobile1} style={{width: this.state.width}}>
+                {this.props?.mobileSearch}
+              </div>
+              <div className={classes.mobile2} style={{width: this.state.width}}>
                 <ListingsContainer
                   listings={this.state.listings}
                   timeDelta={this.props.timeDelta}
@@ -248,7 +272,7 @@ class ListingExplorer extends React.Component {
                   mobile={true}
                 />
               </div>
-            }
+            </div>}
           />
         </div>
       </div>
